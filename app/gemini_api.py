@@ -1,12 +1,12 @@
-import google.generativeai as genai
 import os
+from google import genai
 
 # Load your Gemini API key from environment variable
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
-# Configure Gemini API client
+# Configure Gemini API client using the newer Client API
 if GEMINI_API_KEY:
-    genai.configure(api_key=GEMINI_API_KEY)
+    client = genai.Client(api_key=GEMINI_API_KEY)
 else:
     raise ValueError("GEMINI_API_KEY not set in environment variables.")
 
@@ -23,12 +23,12 @@ MENTAL_HEALTH_PROMPT_TEMPLATE = (
 def get_gemini_response(user_message):
     if not user_message:
         return "I'm here to listen. Please share what you're feeling."
-
     prompt = MENTAL_HEALTH_PROMPT_TEMPLATE.format(user_message=user_message)
     try:
-        # Using Gemini's text generation endpoint (modify as needed for your Gemini version)
-        response = genai.generate_content(prompt)
-        # If the response is an object, extract the text
+        # Use the newer client API and specify the model
+        response = client.models.generate_content(
+            model="gemini-2.5-flash", contents=prompt
+        )
         if isinstance(response, dict) and "text" in response:
             return response["text"]
         elif hasattr(response, "text"):
@@ -60,7 +60,9 @@ def get_gemini_response_context(user_message, history=None):
         f"{conversation}"
     )
     try:
-        response = genai.generate_content(prompt)
+        response = client.models.generate_content(
+            model="gemini-2.5-flash", contents=prompt
+        )
         if isinstance(response, dict) and "text" in response:
             return response["text"]
         elif hasattr(response, "text"):
