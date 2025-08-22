@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mood Tracker | MindMate</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Google Fonts for warmth and friendliness -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:700|Quicksand:400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            font-family: 'Quicksand', 'Montserrat', Arial, sans-serif;
+            background: linear-gradient(135deg, #d5ead7 0%, #f7cac9 100%);
+            margin: 0;
+            min-height: 100vh;
+        }
+        #container {
+            max-width: 450px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(68,68,68,0.12);
+            padding: 32px 0 24px 0;
+        }
+        h1 {
+            text-align: center;
+            color: #4F6367;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        .subtitle {
+            text-align: center;
+            font-size: 1.1em;
+            color: #7A9E9F;
+            margin-bottom: 20px;
+        }
+        form {
+            padding: 0 24px;
+            margin-bottom: 14px;
+        }
+        .mood-select {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        .mood-choice {
+            background: #f7cac9;
+            color: #4F6367;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 18px;
+            font-size: 1em;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+        .mood-choice.selected, .mood-choice:hover {
+            background: #92a8d1;
+            color: #fff;
+        }
+        textarea {
+            width: 100%;
+            border-radius: 12px;
+            border: 1px solid #d5ead7;
+            padding: 10px;
+            font-size: 1em;
+            font-family: inherit;
+            margin-bottom: 10px;
+            resize: vertical;
+        }
+        .submit-btn {
+            background: linear-gradient(90deg, #92a8d1 0%, #f7cac9 100%);
+            color: #fff;
+            border: none;
+            border-radius: 18px;
+            padding: 9px 24px;
+            font-size: 1em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .submit-btn:hover {
+            background: linear-gradient(90deg, #f7cac9 0%, #92a8d1 100%);
+        }
+        .feedback {
+            text-align: center;
+            font-size: 1em;
+            margin: 8px 0;
+            color: #b4656f;
+        }
+        .success {
+            color: #4F6367;
+        }
+        .error {
+            color: #e75480;
+        }
+        .history-title {
+            color: #4F6367;
+            font-weight: 600;
+            text-align: left;
+            margin: 0 24px 10px 24px;
+        }
+        .mood-history {
+            padding: 0 24px;
+        }
+        .mood-entry {
+            background: #f7f9fa;
+            border-radius: 14px;
+            margin-bottom: 10px;
+            padding: 10px 16px;
+            box-shadow: 0 2px 8px rgba(68,68,68,0.07);
+            display: flex;
+            flex-direction: column;
+        }
+        .mood-label {
+            font-weight: 700;
+            color: #92a8d1;
+            font-size: 1em;
+        }
+        .mood-note {
+            color: #4F6367;
+            font-size: 0.95em;
+            margin-top: 3px;
+            margin-bottom: 5px;
+        }
+        .mood-time {
+            font-size: 0.87em;
+            color: #7A9E9F;
+            margin-top: 2px;
+            text-align: right;
+        }
+        .links-bar {
+            text-align: center;
+            margin: 16px 0 0 0;
+        }
+        .links-bar a {
+            display: inline-block;
+            margin: 0 10px;
+            color: #4F6367;
+            background: #f7f9fa;
+            border-radius: 14px;
+            padding: 7px 16px;
+            box-shadow: 0 2px 8px rgba(68,68,68,0.07);
+            font-weight: 600;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+        .links-bar a:hover {
+            background: #d5ead7;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>Track Your Mood</h1>
+        <div class="subtitle">
+            Logging your mood helps you understand your emotional patterns.<br>
+            <span style="font-size:0.95em; color:#b4656f;">You are not alone.</span>
+        </div>
+        <div class="links-bar">
+            <a href="{{ url_for('routes.home') }}">Chatbot</a>
+            <a href="{{ url_for('routes.resources') }}">Resources</a>
+        </div>
+        <form method="POST" id="mood-form">
+            <div class="mood-select" id="mood-select">
+                {% for mood in moods %}
+                    <button type="button" class="mood-choice{% if request.form.get('mood') == mood %} selected{% endif %}" data-mood="{{ mood }}">{{ mood }}</button>
+                {% endfor %}
+            </div>
+            <input type="hidden" name="mood" id="mood-input" value="{{ request.form.get('mood', '') }}">
+            <textarea name="note" rows="2" placeholder="Add a note (optional)...">{{ request.form.get('note', '') }}</textarea>
+            <button type="submit" class="submit-btn">Log Mood</button>
+            {% if success %}
+                <div class="feedback success">{{ success }}</div>
+            {% elif error %}
+                <div class="feedback error">{{ error }}</div>
+            {% endif %}
+        </form>
+        <div class="history-title">Your Recent Moods</div>
+        <div class="mood-history">
+            {% if mood_history %}
+                {% for entry in mood_history %}
+                    <div class="mood-entry">
+                        <span class="mood-label">{{ entry.mood }}</span>
+                        {% if entry.note %}
+                            <span class="mood-note">{{ entry.note }}</span>
+                        {% endif %}
+                        <span class="mood-time">{{ entry.timestamp.strftime('%b %d, %Y %I:%M %p') }}</span>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="mood-entry">
+                    <span class="mood-label">No mood logs yet.</span>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <script>
+        // Mood selection logic
+        document.querySelectorAll('.mood-choice').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.mood-choice').forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+                document.getElementById('mood-input').value = btn.getAttribute('data-mood');
+            });
+        });
+        // Prevent double submit
+        document.getElementById('mood-form').addEventListener('submit', function(e){
+            const mood = document.getElementById('mood-input').value;
+            if (!mood) {
+                e.preventDefault();
+                document.querySelector('.feedback')?.remove();
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'feedback error';
+                errorDiv.textContent = 'Please select your mood.';
+                this.appendChild(errorDiv);
+            }
+        });
+    </script>
+</body>
+  </html>
