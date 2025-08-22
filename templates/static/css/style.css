@@ -1,0 +1,264 @@
+/* MindMate - Global Styles */
+body {
+    font-family: 'Quicksand', 'Montserrat', Arial, sans-serif;
+    background: linear-gradient(135deg, #f7cac9 0%, #92a8d1 100%);
+    margin: 0;
+    min-height: 100vh;
+}
+
+/* Container and Card */
+#container {
+    max-width: 450px;
+    margin: 40px auto;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(68,68,68,0.12);
+    padding: 32px 0 24px 0;
+}
+
+/* Headings */
+h1 {
+    text-align: center;
+    font-weight: 700;
+    color: #4F6367;
+    margin-bottom: 10px;
+    letter-spacing: 0.5px;
+}
+.subtitle {
+    text-align: center;
+    font-size: 1.1em;
+    color: #7A9E9F;
+    margin-bottom: 24px;
+}
+
+/* Navigation Bar */
+nav {
+    text-align: center;
+    margin-bottom: 18px;
+}
+nav a,
+.links-bar a {
+    display: inline-block;
+    margin: 0 10px;
+    color: #4F6367;
+    background: #f7f9fa;
+    border-radius: 14px;
+    padding: 7px 16px;
+    box-shadow: 0 2px 8px rgba(68,68,68,0.07);
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+nav a:hover,
+.links-bar a:hover {
+    background: #d5ead7;
+}
+
+/* Chat Box */
+#chat-box {
+    height: 340px;
+    overflow-y: auto;
+    padding: 0 24px 8px 24px;
+    background: #f7f9fa;
+    border-radius: 12px;
+    margin-bottom: 16px;
+}
+.user-message, .bot-message {
+    margin: 12px 0;
+    padding: 12px 18px;
+    border-radius: 22px;
+    max-width: 80%;
+    word-wrap: break-word;
+    font-size: 1em;
+    box-shadow: 0 2px 8px rgba(68,68,68,0.07);
+}
+.user-message {
+    background: #92a8d1;
+    color: #fff;
+    margin-left: auto;
+    text-align: right;
+}
+.bot-message {
+    background: #d5ead7;
+    color: #345c4a;
+    margin-right: auto;
+    text-align: left;
+}
+
+/* Input Area */
+#input-area {
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    margin-top: 8px;
+}
+#user-input {
+    flex: 1;
+    padding: 12px 16px;
+    border: none;
+    border-radius: 22px;
+    background: #f7f9fa;
+    font-size: 1em;
+    margin-right: 10px;
+    outline: none;
+    box-shadow: 0 2px 8px rgba(68,68,68,0.07);
+}
+#send-btn {
+    padding: 12px 28px;
+    border: none;
+    border-radius: 22px;
+    background: linear-gradient(90deg, #92a8d1 0%, #f7cac9 100%);
+    color: #fff;
+    font-weight: 700;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+#send-btn:hover {
+    background: linear-gradient(90deg, #f7cac9 0%, #92a8d1 100%);
+}
+
+/* Loader Animation */
+.loader {
+    text-align: left;
+    margin-top: 10px;
+}
+.loader span {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: #92a8d1;
+    border-radius: 50%;
+    animation: bounce 0.8s infinite alternate;
+}
+.loader span:nth-child(2) { animation-delay: 0.2s; }
+.loader span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes bounce {
+    to { transform: translateY(-7px); }
+}
+
+/* Mood Tracker */
+form {
+    padding: 0 24px;
+    margin-bottom: 14px;
+}
+.mood-select {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+.mood-choice {
+    background: #f7cac9;
+    color: #4F6367;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 18px;
+    font-size: 1em;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+.mood-choice.selected,
+.mood-choice:hover {
+    background: #92a8d1;
+    color: #fff;
+}
+textarea {
+    width: 100%;
+    border-radius: 12px;
+    border: 1px solid #d5ead7;
+    padding: 10px;
+    font-size: 1em;
+    font-family: inherit;
+    margin-bottom: 10px;
+    resize: vertical;
+}
+.submit-btn {
+    background: linear-gradient(90deg, #92a8d1 0%, #f7cac9 100%);
+    color: #fff;
+    border: none;
+    border-radius: 18px;
+    padding: 9px 24px;
+    font-size: 1em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.submit-btn:hover {
+    background: linear-gradient(90deg, #f7cac9 0%, #92a8d1 100%);
+}
+
+/* Feedback Messages */
+.feedback {
+    text-align: center;
+    font-size: 1em;
+    margin: 8px 0;
+    color: #b4656f;
+}
+.success { color: #4F6367; }
+.error { color: #e75480; }
+
+/* Mood History */
+.history-title {
+    color: #4F6367;
+    font-weight: 600;
+    text-align: left;
+    margin: 0 24px 10px 24px;
+}
+.mood-history {
+    padding: 0 24px;
+}
+.mood-entry {
+    background: #f7f9fa;
+    border-radius: 14px;
+    margin-bottom: 10px;
+    padding: 10px 16px;
+    box-shadow: 0 2px 8px rgba(68,68,68,0.07);
+    display: flex;
+    flex-direction: column;
+}
+.mood-label {
+    font-weight: 700;
+    color: #92a8d1;
+    font-size: 1em;
+}
+.mood-note {
+    color: #4F6367;
+    font-size: 0.95em;
+    margin-top: 3px;
+    margin-bottom: 5px;
+}
+.mood-time {
+    font-size: 0.87em;
+    color: #7A9E9F;
+    margin-top: 2px;
+    text-align: right;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    margin-top: 32px;
+    padding: 12px 0;
+    color: #7A9E9F;
+    font-size: 1em;
+}
+
+/* Responsive */
+@media (max-width: 500px) {
+    #container {
+        max-width: 98vw;
+        margin: 10px auto;
+        padding: 18px 0 12px 0;
+    }
+    .main-content, .mood-history, form, nav, .links-bar {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+    #chat-box {
+        height: 240px;
+        padding: 0 8px 8px 8px;
+    }
+}
