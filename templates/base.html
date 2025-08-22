@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}MindMate{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Google Fonts for warmth and friendliness -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:700|Quicksand:400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            font-family: 'Quicksand', 'Montserrat', Arial, sans-serif;
+            background: linear-gradient(135deg, #f7cac9 0%, #92a8d1 100%);
+            margin: 0;
+            min-height: 100vh;
+        }
+        #container {
+            max-width: 450px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(68,68,68,0.12);
+            padding: 32px 0 24px 0;
+        }
+        header {
+            text-align: center;
+            padding-bottom: 8px;
+        }
+        h1 {
+            font-weight: 700;
+            color: #4F6367;
+            margin-bottom: 10px;
+            letter-spacing: 0.5px;
+        }
+        nav {
+            text-align: center;
+            margin-bottom: 18px;
+        }
+        nav a {
+            display: inline-block;
+            margin: 0 10px;
+            color: #4F6367;
+            background: #f7f9fa;
+            border-radius: 14px;
+            padding: 7px 16px;
+            box-shadow: 0 2px 8px rgba(68,68,68,0.07);
+            font-weight: 600;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+        nav a:hover {
+            background: #d5ead7;
+        }
+        .main-content {
+            padding: 0 0;
+        }
+        footer {
+            text-align: center;
+            margin-top: 32px;
+            padding: 12px 0;
+            color: #7A9E9F;
+            font-size: 1em;
+        }
+    </style>
+    {% block headextra %}{% endblock %}
+</head>
+<body>
+    <div id="container">
+        <header>
+            <h1>MindMate</h1>
+            <nav>
+                <a href="{{ url_for('routes.home') }}">Chatbot</a>
+                <a href="{{ url_for('routes.mood') }}">Mood Tracker</a>
+                <a href="{{ url_for('routes.resources') }}">Resources</a>
+            </nav>
+        </header>
+        <div class="main-content">
+            {% block content %}
+            <!-- Page content goes here -->
+            {% endblock %}
+        </div>
+        <footer>
+            &copy; {{ current_year | default(2025) }} MindMate &mdash; Your Supportive Mental Health Companion
+        </footer>
+    </div>
+    {% block bodyextra %}{% endblock %}
+</body>
+</html>
