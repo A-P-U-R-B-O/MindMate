@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify, render_template, session
-from .gemini_api import get_gemini_response
+from .groq_api import get_llama3_response
 from .models import db, Mood, ChatHistory
 from .utils import get_current_user, crisis_detected
 
@@ -53,8 +53,8 @@ def chat():
         db.session.commit()
         return jsonify({"response": crisis_response, "crisis": True})
 
-    # Get Gemini response
-    bot_response = get_gemini_response(user_message)
+    # Get Llama-3 response from Groq API
+    bot_response = get_llama3_response(user_message)
     chat_entry_bot = ChatHistory(user_id=user.id, sender='bot', message=bot_response)
     db.session.add(chat_entry_bot)
     db.session.commit()
