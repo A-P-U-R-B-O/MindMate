@@ -16,14 +16,19 @@ def mood():
         mood_value = request.form.get('mood')
         note = request.form.get('note', '')
         if not mood_value:
-            return render_template('mood.html', error="Please select your mood.", moods=Mood.MOOD_CHOICES)
+            moods = Mood.MOOD_CHOICES
+            moods_history = Mood.query.filter_by(user_id=user.id).order_by(Mood.timestamp.desc()).limit(30).all()
+            return render_template('mood.html', error="Please select your mood.", moods=moods, mood_history=moods_history)
         mood_entry = Mood(user_id=user.id, mood=mood_value, note=note)
         db.session.add(mood_entry)
         db.session.commit()
-        return render_template('mood.html', success="Mood logged!", moods=Mood.MOOD_CHOICES)
+        moods = Mood.MOOD_CHOICES
+        moods_history = Mood.query.filter_by(user_id=user.id).order_by(Mood.timestamp.desc()).limit(30).all()
+        return render_template('mood.html', success="Mood logged!", moods=moods, mood_history=moods_history)
     # GET: Show mood history
-    moods = Mood.query.filter_by(user_id=user.id).order_by(Mood.timestamp.desc()).limit(30).all()
-    return render_template('mood.html', moods=Mood.MOOD_CHOICES, mood_history=moods)
+    moods = Mood.MOOD_CHOICES
+    moods_history = Mood.query.filter_by(user_id=user.id).order_by(Mood.timestamp.desc()).limit(30).all()
+    return render_template('mood.html', moods=moods, mood_history=moods_history)
 
 @routes.route('/chat', methods=['POST'])
 def chat():
@@ -66,7 +71,6 @@ def chat_history():
 
 @routes.route('/resources', methods=['GET'])
 def resources():
-    # Static resource list, could be from DB
     resources_list = [
         {"title": "National Helpline", "url": "tel:18002738255"},
         {"title": "Mindfulness Meditation Guide", "url": "https://www.mindful.org/how-to-meditate/"},
