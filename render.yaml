@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: mindmate-app
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn run:app
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: SECRET_KEY
+        value: your-secret-key-here
+      - key: DATABASE_URL
+        value: sqlite:///mindmate.db
+      - key: GEMINI_API_KEY
+        value: your-gemini-api-key-here
+    autoDeploy: true
+    plan: free
