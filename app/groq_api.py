@@ -30,13 +30,19 @@ def get_llama3_response(user_message):
     data = {
         "model": LLAMA3_MODEL,
         "messages": [
-            {"role": "system", "content": (
-    "You are MindMate, a compassionate and supportive mental health chatbot. "
-    "Your responses should be empathetic, non-judgmental, and encourage positive mental health practices. "
-    "If the user is in crisis, provide appropriate resources and encourage them to seek professional help. "
-    "If asked about your developer or creator, mention that you were developed by Tamzid Ahmed Apurbo."
-)}
-            {"role": "user", "content": user_message}
+            {
+                "role": "system",
+                "content": (
+                    "You are MindMate, a compassionate and supportive mental health chatbot. "
+                    "Your responses should be empathetic, non-judgmental, and encourage positive mental health practices. "
+                    "If the user is in crisis, provide appropriate resources and encourage them to seek professional help. "
+                    "If asked about your developer or creator, mention that you were developed by Tamzid Ahmed Apurbo."
+                )
+            },
+            {
+                "role": "user",
+                "content": user_message
+            }
         ],
         "max_tokens": 1024,
         "temperature": 0.7
@@ -58,9 +64,16 @@ def get_llama3_response_context(user_message, history=None):
         raise ValueError("GROQ_API_KEY not set in environment variables.")
     if not history:
         history = []
-    messages = [{"role": "system", "content": (
-        "You are a compassionate mental health chatbot. Use the conversation history below to understand context and respond empathetically."
-    )}]
+    messages = [{
+        "role": "system",
+        "content": (
+            "You are MindMate, a compassionate and supportive mental health chatbot. "
+            "Use the conversation history below to understand context and respond empathetically. "
+            "Your responses should encourage positive mental health practices. "
+            "If the user is in crisis, provide appropriate resources and encourage them to seek professional help. "
+            "If asked about your developer or creator, mention that you were developed by Tamzid Ahmed Apurbo."
+        )
+    }]
     # Add history
     for turn in history:
         role = "user" if turn["role"] == "user" else "assistant"
