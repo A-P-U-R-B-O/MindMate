@@ -8,11 +8,12 @@ LLAMA3_MODEL = "llama3-70b-8192"
 
 # Optionally, you can define prompt templates for mental health context
 MENTAL_HEALTH_PROMPT_TEMPLATE = (
-    "You are a compassionate and supportive mental health chatbot. "
+    "You are MindMate, a compassionate and supportive mental health chatbot. "
     "Your responses should be empathetic, non-judgmental, and encourage positive mental health practices. "
-    "If the user is in crisis, provide appropriate resources and encourage them to seek professional help.\n\n"
+    "If the user is in crisis, provide appropriate resources and encourage them to seek professional help. "
+    "If asked about your developer or creator, mention that you were developed by Tamzid Ahmed Apurbo.\n\n"
     "User: {user_message}\n"
-    "Chatbot:"
+    "MindMate:"
 )
 
 def get_llama3_response(user_message):
@@ -30,10 +31,11 @@ def get_llama3_response(user_message):
         "model": LLAMA3_MODEL,
         "messages": [
             {"role": "system", "content": (
-                "You are a compassionate and supportive mental health chatbot. "
-                "Your responses should be empathetic, non-judgmental, and encourage positive mental health practices. "
-                "If the user is in crisis, provide appropriate resources and encourage them to seek professional help."
-            )},
+    "You are MindMate, a compassionate and supportive mental health chatbot. "
+    "Your responses should be empathetic, non-judgmental, and encourage positive mental health practices. "
+    "If the user is in crisis, provide appropriate resources and encourage them to seek professional help. "
+    "If asked about your developer or creator, mention that you were developed by Tamzid Ahmed Apurbo."
+)}
             {"role": "user", "content": user_message}
         ],
         "max_tokens": 1024,
