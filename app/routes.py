@@ -1,5 +1,5 @@
-from flask import Blueprint, request, jsonify, render_template, session
-from .groq_api import get_llama3_response
+   from flask import Blueprint, request, jsonify, render_template, session
+from .groq_api import get_gpt_oss_response  # UPDATED IMPORT STATEMENT
 from .models import db, Mood, ChatHistory
 from .utils import get_current_user, crisis_detected
 
@@ -53,8 +53,8 @@ def chat():
         db.session.commit()
         return jsonify({"response": crisis_response, "crisis": True})
 
-    # Get Llama-3 response from Groq API
-    bot_response = get_llama3_response(user_message)
+    # Get GPT-OSS response from Groq API
+    bot_response = get_gpt_oss_response(user_message)  # UPDATED FUNCTION CALL
     chat_entry_bot = ChatHistory(user_id=user.id, sender='bot', message=bot_response)
     db.session.add(chat_entry_bot)
     db.session.commit()
