@@ -158,6 +158,9 @@
             <span></span><span></span><span></span>
         </div>
     </div>
+    <!-- Load marked.js and DOMPurify from CDN for markdown and safe HTML rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.8/dist/purify.min.js"></script>
     <script>
         // Basic chat logic
         const chatBox = document.getElementById('chat-box');
@@ -168,6 +171,7 @@
         function appendMessage(text, sender) {
             const div = document.createElement('div');
             div.className = sender === 'user' ? 'user-message' : 'bot-message';
+            // Convert markdown to HTML, then sanitize for safety
             div.innerHTML = DOMPurify.sanitize(marked.parse(text));
             chatBox.appendChild(div);
             chatBox.scrollTop = chatBox.scrollHeight;
@@ -214,4 +218,4 @@
         });
     </script>
 </body>
-  </html>
+</html>
