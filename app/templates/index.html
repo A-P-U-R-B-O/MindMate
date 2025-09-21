@@ -174,7 +174,6 @@
             // Convert markdown to HTML, then sanitize for safety
             div.innerHTML = DOMPurify.sanitize(marked.parse(text));
             chatBox.appendChild(div);
-            chatBox.scrollTop = chatBox.scrollHeight;
         }
 
         function showLoader(show) {
